@@ -1133,6 +1133,11 @@ function TypewriterText({ text, speed = 25, onComplete, style }) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
   const indexRef = useRef(0);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   useEffect(() => {
     setDisplayed("");
@@ -1144,7 +1149,7 @@ function TypewriterText({ text, speed = 25, onComplete, style }) {
         setDisplayed(text);
         setDone(true);
         clearInterval(interval);
-        if (onComplete) onComplete();
+        if (onCompleteRef.current) onCompleteRef.current();
       } else {
         setDisplayed(text.slice(0, indexRef.current));
       }
@@ -1157,28 +1162,6 @@ function TypewriterText({ text, speed = 25, onComplete, style }) {
       {displayed}
       {done && <span style={{ animation: "blink 1s step-end infinite", marginLeft: 4 }}>▼</span>}
     </span>
-  );
-}
-
-function EffectivenessPopup({ label, onDone }) {
-  useEffect(() => {
-    const t = setTimeout(onDone, 1500);
-    return () => clearTimeout(t);
-  }, [onDone]);
-
-  if (!label) return null;
-  const scale = label.type === "super" ? "1.3" : label.type === "backfire" ? "1.2" : "1";
-  return (
-    <div style={{
-      position: "absolute", top: "50%", left: "50%", transform: `translate(-50%,-50%) scale(${scale})`,
-      fontSize: 22, fontWeight: 700, color: label.color,
-      textShadow: `0 0 20px ${label.color}44`,
-      animation: "effectiveness-pop 1.5s ease-out forwards",
-      zIndex: 100, pointerEvents: "none", whiteSpace: "nowrap",
-      fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
-    }}>
-      {label.text}
-    </div>
   );
 }
 
@@ -1398,7 +1381,7 @@ function ClassSelection({ classOptions, onSelect, playerName, onNameChange, colo
 // ═══════════════════════════════════════════════════════════
 
 function BattleTrigger({ chamberLabel, yeaCount, nayCount, needed, onFight, onSkip, colors, fonts, radii, mob }) {
-  const C = colors, SANS = fonts.sans, SERIF = fonts.serif;
+  const C = colors, SANS = fonts.sans;
   const votesShort = needed - yeaCount;
 
   return (
@@ -1452,8 +1435,8 @@ function BattleTrigger({ chamberLabel, yeaCount, nayCount, needed, onFight, onSk
 // TARGET SELECTION
 // ═══════════════════════════════════════════════════════════
 
-function TargetSelection({ groups, battlesRemaining, yeaCount, needed, onSelect, onGiveUp, colors, fonts, radii, mob, chamberLabel }) {
-  const C = colors, SANS = fonts.sans, SERIF = fonts.serif;
+function TargetSelection({ groups, battlesRemaining, yeaCount, needed, onSelect, onGiveUp, colors, fonts, radii, mob }) {
+  const C = colors, SANS = fonts.sans;
 
   return (
     <div style={{ padding: mob ? 16 : 32, maxWidth: 700, margin: "0 auto", width: "100%" }}>
@@ -1480,7 +1463,7 @@ function TargetSelection({ groups, battlesRemaining, yeaCount, needed, onSelect,
           const filledSegs = Math.round(flipPct / 10);
           const partyTint = g.party === "R" ? "#8b5a50" : g.party === "D" ? "#50698b" : "#6b5b7a";
           const weaknesses = [];
-          for (const [moveId, move] of Object.entries(MOVES)) {
+          for (const move of Object.values(MOVES)) {
             if ((move.typeChart[g.archetype] || 1) >= 1.5) weaknesses.push(move.name);
           }
 
@@ -1567,7 +1550,7 @@ function TargetSelection({ groups, battlesRemaining, yeaCount, needed, onSelect,
 // BATTLE INTRO (Prof. Bernie — welcome to Capitol Hill)
 // ═══════════════════════════════════════════════════════════
 
-function BattleIntro({ playerClass, playerName, votesShort, chamberLabel, onContinue, colors, fonts, radii, mob }) {
+function BattleIntro({ playerName, votesShort, chamberLabel, onContinue, colors, fonts, radii, mob }) {
   const C = colors, SANS = fonts.sans, SERIF = fonts.serif;
   const [intro] = useState(() => pickRandom(BERNIE_INTROS)
     .replace(/\{player\}/g, playerName || "friend")
@@ -1626,8 +1609,6 @@ function BattleScreen({ target, playerClass, playerName, playerLocation, bill, o
   const [senatorHP, setSenatorHP] = useState(100);
   const [playerHP, setPlayerHP] = useState(100);
   const [turnPhase, setTurnPhase] = useState("select"); // select | player_attack | effectiveness | counter | win | lose
-  const [currentMove, setCurrentMove] = useState(null);
-  const [effectLabel, setEffectLabel] = useState(null);
   const [dialogueText, setDialogueText] = useState(() => {
     // Context-aware openings that reference who the player is
     const loc = playerLocation;
@@ -1709,7 +1690,6 @@ function BattleScreen({ target, playerClass, playerName, playerLocation, bill, o
   const executeMove = useCallback((moveId) => {
     const move = MOVES[moveId];
     if (!move) return;
-    setCurrentMove(move);
     setTurnPhase("player_attack");
     battleStateRef.current.usedMoves.push(moveId);
 
@@ -1995,7 +1975,7 @@ function BattleScreen({ target, playerClass, playerName, playerLocation, bill, o
 // ═══════════════════════════════════════════════════════════
 
 function BattleResult({ target, won, flippedMembers, yeaCount, newYeaCount, needed, onContinue, colors, fonts, radii, mob }) {
-  const C = colors, SANS = fonts.sans, SERIF = fonts.serif;
+  const C = colors, SANS = fonts.sans;
   const nowPassing = newYeaCount >= needed;
 
   return (
@@ -2076,11 +2056,11 @@ function BattleResult({ target, won, flippedMembers, yeaCount, newYeaCount, need
 // ═══════════════════════════════════════════════════════════
 
 export default function BattleSystem({
-  policy, chamber, chamberLabel, members, voteResults,
+  policy, chamber, chamberLabel, voteResults,
   yeaCount, nayCount, threshold,
   playerClass, setPlayerClass, playerName, setPlayerName, classOptions,
   onComplete, onSkip,
-  colors, fonts, radii, shadows, mob, sm,
+  colors, fonts, radii, mob,
 }) {
   const C = colors;
   const [phase, setPhase] = useState("trigger");

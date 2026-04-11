@@ -3,7 +3,7 @@ import { DB } from "./govData";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardTitle, CardContent } from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/src/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/src/components/ui/dialog";
 import { BATTLE_CLASSES, WELL_KNOWN } from "./BattleSim";
 import PokeMacBattle from "@/src/components/battle/PokeMacBattle";
 
@@ -904,13 +904,34 @@ function useWindowSize() {
 }
 function useMounted() { const [m, setM] = useState(false); useEffect(() => setM(true), []); return m; }
 
+function withBrowserStorage(type, action) {
+  if (typeof window === "undefined") return null;
+  const storage = type === "local" ? window.localStorage : window.sessionStorage;
+  try {
+    return action(storage);
+  } catch {
+    return null;
+  }
+}
+
+function withLocalStorage(action) {
+  return withBrowserStorage("local", action);
+}
+
+function withSessionStorage(action) {
+  return withBrowserStorage("session", action);
+}
+
 // ─── COMPONENT ───
 export default function GovSim() {
   const mounted = useMounted();
   const win = useWindowSize();
   const mob = mounted && win.w < 768;
   const sm = mounted && win.w < 480;
-  const [restoredPol] = useState(() => { try { const s = sessionStorage.getItem("gs_policy"); return s ? JSON.parse(s) : null; } catch { return null; } });
+  const [restoredPol] = useState(() => withSessionStorage((storage) => {
+    const stored = storage.getItem("gs_policy");
+    return stored ? JSON.parse(stored) : null;
+  }));
   const [timeline, setTimeline] = useState(() => restoredPol ? buildTimeline(restoredPol) : null);
   const [playhead, setPlayhead] = useState(0);
   const [playing, setPlaying] = useState(!!restoredPol);
@@ -939,7 +960,7 @@ export default function GovSim() {
   const [keyDialogOpen, setKeyDialogOpen] = useState(false);
   const [keyDraft, setKeyDraft] = useState("");
   useEffect(() => {
-    const stored = localStorage.getItem("anthropic_key");
+    const stored = withLocalStorage((storage) => storage.getItem("anthropic_key"));
     if (stored) setApiKey(stored);
   }, []);
 
@@ -993,7 +1014,7 @@ export default function GovSim() {
   }, [playing, timeline, speed]);
 
   const VIEWS = mob ? VIEWS_MOB : VIEWS_DT;
-  useEffect(() => { tgt.current = VIEWS[snap.stage] || VIEWS.idle; }, [snap.stage, mob]);
+  useEffect(() => { tgt.current = VIEWS[snap.stage] || VIEWS.idle; }, [snap.stage, VIEWS]);
 
   // Positions
   const positions = useMemo(() => {
@@ -1065,8 +1086,40 @@ export default function GovSim() {
   }, [timeline]);
 
   const reshuffleClasses = () => { const shuffled = [...BATTLE_CLASSES].sort(() => Math.random() - 0.5); setClassOptions(shuffled.slice(0, 3)); };
-  const go = useCallback(policy => { setPol(policy); setTimeline(buildTimeline(policy)); setPlayhead(0); setPlaying(true); setAnalyzing(false); battleDone.current = false; battledChambers.current = new Set(); setBattlePhase(null); setPlayerClass(null); setPlayerName(""); reshuffleClasses(); try { sessionStorage.setItem("gs_policy", JSON.stringify(policy)); } catch {} }, []);
-  const reset = () => { setTimeline(null); setPol(null); setPlayhead(0); setPlaying(false); setAnalyzing(false); setBattlePhase(null); battleDone.current = false; battledChambers.current = new Set(); setPlayerClass(null); setPlayerName(""); reshuffleClasses(); try { sessionStorage.removeItem("gs_policy"); } catch {} };
+  const go = useCallback(policy => {
+    setPol(policy);
+    setTimeline(buildTimeline(policy));
+    setPlayhead(0);
+    setPlaying(true);
+    setAnalyzing(false);
+    battleDone.current = false;
+    battledChambers.current = new Set();
+    setBattlePhase(null);
+    setPlayerClass(null);
+    setPlayerName("");
+    reshuffleClasses();
+    withSessionStorage((storage) => {
+      storage.setItem("gs_policy", JSON.stringify(policy));
+      return null;
+    });
+  }, []);
+  const reset = () => {
+    setTimeline(null);
+    setPol(null);
+    setPlayhead(0);
+    setPlaying(false);
+    setAnalyzing(false);
+    setBattlePhase(null);
+    battleDone.current = false;
+    battledChambers.current = new Set();
+    setPlayerClass(null);
+    setPlayerName("");
+    reshuffleClasses();
+    withSessionStorage((storage) => {
+      storage.removeItem("gs_policy");
+      return null;
+    });
+  };
   const replay = () => { setPlayhead(0); setPlaying(true); cur.current = VIEWS.idle; };
 
   // ─── BATTLE PHASE DETECTION ───
@@ -1105,7 +1158,6 @@ export default function GovSim() {
       for (const m of timeline.voteData[ch].r) { forcedVotes[ch][m.id] = m.v; }
     }
     // Override flipped members (skip VP_VANCE — not a real senator)
-    const hasVP = chamber === "sen" && flippedIds.includes("vp_vance");
     for (const id of flippedIds) {
       if (id === "vp_vance") continue;
       if (forcedVotes[chamber]) forcedVotes[chamber][id] = true;
@@ -1410,14 +1462,32 @@ export default function GovSim() {
                 <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", marginTop: 4 }}>
                   {apiKey && (
                     <button
-                      onClick={() => { setApiKey(""); localStorage.removeItem("anthropic_key"); setKeyDraft(""); setKeyDialogOpen(false); }}
+                      onClick={() => {
+                        setApiKey("");
+                        withLocalStorage((storage) => {
+                          storage.removeItem("anthropic_key");
+                          return null;
+                        });
+                        setKeyDraft("");
+                        setKeyDialogOpen(false);
+                      }}
                       style={{ padding: "7px 16px", borderRadius: R.md, border: `1px solid ${C.border}`, background: "transparent", color: C.textMid, fontFamily: SANS, fontWeight: 500, fontSize: 12, cursor: "pointer" }}
                     >
                       Clear key
                     </button>
                   )}
                   <button
-                    onClick={() => { const k = keyDraft.trim(); if (k) { setApiKey(k); localStorage.setItem("anthropic_key", k); } setKeyDialogOpen(false); }}
+                    onClick={() => {
+                      const k = keyDraft.trim();
+                      if (k) {
+                        setApiKey(k);
+                        withLocalStorage((storage) => {
+                          storage.setItem("anthropic_key", k);
+                          return null;
+                        });
+                      }
+                      setKeyDialogOpen(false);
+                    }}
                     disabled={!keyDraft.trim()}
                     style={{ padding: "7px 20px", borderRadius: R.md, border: "none", background: C.bar, color: C.bg, fontFamily: SANS, fontWeight: 600, fontSize: 12, cursor: "pointer", opacity: keyDraft.trim() ? 1 : 0.5 }}
                   >

@@ -1,0 +1,57 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - img [ref=e3]:
+      - generic [ref=e4]: UNITED STATES SENATE
+      - generic [ref=e5]: HOUSE OF REPRESENTATIVES
+      - generic [ref=e6]: EXECUTIVE
+      - generic [ref=e7]: SUPREME COURT
+      - generic: CJ Roberts
+      - generic: Thomas
+      - generic: Alito
+      - generic: Sotomayor
+      - generic: Kagan
+      - generic: Gorsuch
+      - generic: Kavanaugh
+      - generic: Barrett
+      - generic: Jackson
+      - generic: Trump
+      - generic: Vance
+    - generic:
+      - generic:
+        - generic: "PolicySim: U.S. Federal Policy Simulator"
+        - generic:
+          - generic: "Now voting on:"
+          - generic: Secure Borders Act
+      - generic:
+        - generic:
+          - generic: House
+          - generic: →
+        - generic:
+          - generic: Senate
+          - generic: →
+        - generic:
+          - generic: President
+          - generic: →
+        - generic:
+          - generic: Court
+    - generic [ref=e1313]:
+      - generic [ref=e1314]:
+        - generic [ref=e1315]: "28"
+        - generic [ref=e1316]: YEA
+      - generic [ref=e1318]:
+        - generic [ref=e1319]: "26"
+        - generic [ref=e1320]: NAY
+    - generic [ref=e1322]:
+      - img [ref=e1324] [cursor=pointer]
+      - generic [ref=e1327] [cursor=pointer]:
+        - generic [ref=e1329]: House
+        - generic [ref=e1332]: Senate
+        - generic [ref=e1336]: President
+        - generic [ref=e1340]: Court
+      - generic [ref=e1346]:
+        - generic [ref=e1347]:
+          - generic [ref=e1348] [cursor=pointer]: 0.5x
+          - generic [ref=e1349] [cursor=pointer]: 1x
+          - generic [ref=e1350] [cursor=pointer]: 2x
+        - button "New" [ref=e1351] [cursor=pointer]
+  - alert [ref=e1312]

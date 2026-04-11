@@ -1,0 +1,71 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - img [ref=e3]:
+      - generic [ref=e4]: UNITED STATES SENATE
+      - generic [ref=e5]: HOUSE OF REPRESENTATIVES
+      - generic [ref=e6]: EXECUTIVE
+      - generic [ref=e7]: SUPREME COURT
+      - generic: CJ Roberts
+      - generic: Thomas
+      - generic: Alito
+      - generic: Sotomayor
+      - generic: Kagan
+      - generic: Gorsuch
+      - generic: Kavanaugh
+      - generic: Barrett
+      - generic: Jackson
+      - generic: Trump
+      - generic: Vance
+    - generic:
+      - generic:
+        - generic: "PolicySim: U.S. Federal Policy Simulator"
+    - generic [ref=e1197]:
+      - generic [ref=e1198]:
+        - generic [ref=e1199]: U.S. Federal Government Simulator
+        - heading "PolicySim" [level=1] [ref=e1200]
+        - generic [ref=e1201]: Senate · House · Executive · Supreme Court
+      - generic [ref=e1202]:
+        - generic [ref=e1203]:
+          - generic [ref=e1204]: Describe your own bill
+          - generic [ref=e1205]:
+            - textbox "e.g. Ban TikTok nationwide, legalize marijuana..." [ref=e1206]
+            - button "Simulate" [disabled] [ref=e1207] [cursor=pointer]
+          - generic [ref=e1209]:
+            - text: Keyword-only mode —
+            - button "Add your API key" [ref=e1210] [cursor=pointer]
+            - text: for AI-powered analysis
+        - generic [ref=e1213]: or choose a preset
+        - generic [ref=e1215]:
+          - generic [ref=e1218] [cursor=pointer]: Secure Borders Act
+          - generic [ref=e1221] [cursor=pointer]: Green New Deal 2.0
+          - generic [ref=e1224] [cursor=pointer]: Tax Relief & Jobs Act
+          - generic [ref=e1227] [cursor=pointer]: Medicare for All
+          - generic [ref=e1230] [cursor=pointer]: Infrastructure & AI Act
+          - generic [ref=e1233] [cursor=pointer]: 2nd Amendment Expansion
+          - generic [ref=e1236] [cursor=pointer]: Student Debt Relief
+          - generic [ref=e1239] [cursor=pointer]: Tech Antitrust Reform
+          - generic [ref=e1242] [cursor=pointer]: Criminal Justice Reform
+          - generic [ref=e1245] [cursor=pointer]: Israel Defense Funding Act
+          - generic [ref=e1248] [cursor=pointer]: Palestine Humanitarian Aid Act
+          - generic [ref=e1251] [cursor=pointer]: Iran Sanctions Reinforcement Act
+          - generic [ref=e1254] [cursor=pointer]: Ukraine Defense Aid Act
+          - generic [ref=e1257] [cursor=pointer]: Women's Reproductive Freedom Act
+          - generic [ref=e1260] [cursor=pointer]: Heartbeat Protection Act
+          - generic [ref=e1263] [cursor=pointer]: Respect for Marriage Act 2.0
+          - generic [ref=e1266] [cursor=pointer]: Religious Freedom Restoration Act
+          - generic [ref=e1269] [cursor=pointer]: Trans Athletes & Title IX Clarity Act
+          - generic [ref=e1272] [cursor=pointer]: Gender-Affirming Care Protection Act
+          - generic [ref=e1275] [cursor=pointer]: Free College for All Act
+          - generic [ref=e1278] [cursor=pointer]: National Right to Work Act
+          - generic [ref=e1281] [cursor=pointer]: Universal Basic Income Pilot Act
+          - generic [ref=e1284] [cursor=pointer]: Housing Affordability Act
+          - generic [ref=e1287] [cursor=pointer]: Ban Assault Weapons Act
+          - generic [ref=e1290] [cursor=pointer]: Social Media Child Safety Act
+          - generic [ref=e1293] [cursor=pointer]: Federal Marijuana Legalization Act
+          - generic [ref=e1296] [cursor=pointer]: TikTok & Foreign App Ban Act
+          - generic [ref=e1299] [cursor=pointer]: Balanced Budget Amendment Act
+          - generic [ref=e1302] [cursor=pointer]: Puerto Rico Statehood Act
+          - generic [ref=e1305] [cursor=pointer]: AI Deepfake Election Disclosure Act
+          - generic [ref=e1308] [cursor=pointer]: Birthright Citizenship Protection Act
+          - generic [ref=e1311] [cursor=pointer]: DACA Dreamer Pathway Act
+  - alert [ref=e1312]

@@ -22,26 +22,20 @@ export default function PixelTypewriter({
 
   // Typewriter effect
   useEffect(() => {
-    if (done) return;
-    if (charIndex >= currentMsg.length) return;
+    clearTimeout(intervalRef.current);
+    if (done || charIndex >= currentMsg.length) return undefined;
 
-    intervalRef.current = setInterval(() => {
-      setCharIndex((prev) => {
-        if (prev >= currentMsg.length - 1) {
-          clearInterval(intervalRef.current);
-          return currentMsg.length;
-        }
-        return prev + 1;
-      });
+    intervalRef.current = setTimeout(() => {
+      setCharIndex((prev) => Math.min(prev + 1, currentMsg.length));
     }, speed);
 
-    return () => clearInterval(intervalRef.current);
-  }, [msgIndex, currentMsg, speed, done]);
+    return () => clearTimeout(intervalRef.current);
+  }, [charIndex, currentMsg, speed, done]);
 
   const handleClick = useCallback(() => {
     // If still typing, skip to end
     if (charIndex < currentMsg.length) {
-      clearInterval(intervalRef.current);
+      clearTimeout(intervalRef.current);
       setCharIndex(currentMsg.length);
       return;
     }

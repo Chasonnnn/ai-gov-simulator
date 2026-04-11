@@ -842,7 +842,6 @@ export default function PokeMacBattle({
   policy,
   chamber,
   chamberLabel,
-  members: _members,
   voteResults,
   yeaCount,
   nayCount,
@@ -884,7 +883,6 @@ export default function PokeMacBattle({
   const senatorHPRef = useRef(100);
   const playerHPRef = useRef(100);
   const turnCountRef = useRef(0);
-  const seniorityRef = useRef(null);
   const maxTurns = 8;
 
   // ─── Computed ───
@@ -939,7 +937,6 @@ export default function PokeMacBattle({
 
   const handleSelectTarget = (group) => {
     setCurrentTarget(group);
-    seniorityRef.current = null; // reset for new target
     const loc = getPlayerLocation(playerClass, group.face);
     setPlayerLocation(loc);
 
@@ -1325,10 +1322,7 @@ export default function PokeMacBattle({
     const member = currentTarget.face;
     const archetype = member.personality?.archetype || "establishment";
     const sceneType = getSceneType(chamber, playerClass, archetype);
-    if (seniorityRef.current === null) {
-      seniorityRef.current = member.seniority || ARCHETYPE_DEFAULT_SENIORITY[archetype] || 10;
-    }
-    const seniority = seniorityRef.current;
+    const seniority = member.seniority || ARCHETYPE_DEFAULT_SENIORITY[archetype] || 10;
 
     const moveGrid =
       turnPhase === "select" ? (

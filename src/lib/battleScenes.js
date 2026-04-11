@@ -35,7 +35,7 @@ function fillRect(ctx, x, y, w, h, color) {
 
 // ─── Scene mapping ───
 
-export function getSceneType(chamber, playerClass, enemyArchetype) {
+export function getSceneType(chamber, playerClass) {
   if (playerClass?.id === "lobbyist") return "lobbyist_office";
   if (playerClass?.id === "student_activist" || playerClass?.id === "parent") return "town_hall";
   if (chamber === "sen") return "senate_chamber";

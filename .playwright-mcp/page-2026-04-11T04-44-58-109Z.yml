@@ -1,0 +1,122 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - img [ref=e3]:
+      - generic [ref=e4]: UNITED STATES SENATE
+      - generic [ref=e5]: HOUSE OF REPRESENTATIVES
+      - generic [ref=e6]: EXECUTIVE
+      - generic [ref=e7]: SUPREME COURT
+      - generic: CJ Roberts
+      - generic: Thomas
+      - generic: Alito
+      - generic: Sotomayor
+      - generic: Kagan
+      - generic: Gorsuch
+      - generic: Kavanaugh
+      - generic: Barrett
+      - generic: Jackson
+      - generic: Trump
+      - generic: Vance
+    - generic:
+      - generic:
+        - generic: "PolicySim: U.S. Federal Policy Simulator"
+        - generic:
+          - generic: "Now voting on:"
+          - generic: Medicare for All
+      - generic:
+        - generic:
+          - generic: House
+          - generic: →
+        - generic:
+          - generic: Senate
+          - generic: →
+        - generic:
+          - generic: President
+          - generic: →
+        - generic:
+          - generic: Court
+    - generic [ref=e1198]:
+      - img [ref=e1200] [cursor=pointer]
+      - generic [ref=e1204] [cursor=pointer]: House
+      - generic [ref=e1209]:
+        - generic [ref=e1210]:
+          - generic [ref=e1211] [cursor=pointer]: 0.5x
+          - generic [ref=e1212] [cursor=pointer]: 1x
+          - generic [ref=e1213] [cursor=pointer]: 2x
+        - button "New" [ref=e1214] [cursor=pointer]
+    - generic [ref=e1224]:
+      - generic [ref=e1226]: BATTLESIM
+      - generic [ref=e1228]:
+        - generic [ref=e1229]:
+          - generic [ref=e1230]: WELCOME TO WASHINGTON
+          - generic [ref=e1231]: Choose your identity
+        - textbox "I'm Blue..." [ref=e1448]
+        - generic [ref=e1234]:
+          - generic [ref=e1236] [cursor=pointer]:
+            - generic [ref=e1237]:
+              - generic [ref=e1284]: Party Insider
+              - generic [ref=e1285]: Former Hill staffer who spent eight years in the Senate. You know the rules, the favors owed, and where a few skeletons are buried.
+              - button "PICK" [ref=e1286]
+            - generic [ref=e1287]:
+              - generic [ref=e1288]:
+                - generic [ref=e1289]: MOVES
+                - generic [ref=e1290]:
+                  - generic [ref=e1291]: Horse Trade
+                  - generic [ref=e1292]: Primary Threat
+                  - generic [ref=e1293]: Donor Leverage
+                  - generic [ref=e1294]: Constituent Pressure
+                  - generic [ref=e1295]: +2 random
+              - generic [ref=e1296]:
+                - generic [ref=e1297]:
+                  - generic [ref=e1298]: Strong against
+                  - generic [ref=e1299]: transactional
+                  - generic [ref=e1300]: pressure
+                - generic [ref=e1301]:
+                  - generic [ref=e1302]: Weak against
+                  - generic [ref=e1303]: logical
+              - button "PICK" [ref=e1304]
+          - generic [ref=e1306] [cursor=pointer]:
+            - generic [ref=e1307]:
+              - generic [ref=e1355]: Campaign Operative
+              - generic [ref=e1356]: You ran the coordinated campaign last cycle and you know their polling numbers better than they do. Elections have consequences.
+              - button "PICK" [ref=e1357]
+            - generic [ref=e1358]:
+              - generic [ref=e1359]:
+                - generic [ref=e1360]: MOVES
+                - generic [ref=e1361]:
+                  - generic [ref=e1362]: Primary Threat
+                  - generic [ref=e1363]: Constituent Pressure
+                  - generic [ref=e1364]: Media Pressure
+                  - generic [ref=e1365]: Local Impact
+                  - generic [ref=e1366]: +2 random
+              - generic [ref=e1367]:
+                - generic [ref=e1368]:
+                  - generic [ref=e1369]: Strong against
+                  - generic [ref=e1370]: pressure
+                - generic [ref=e1371]:
+                  - generic [ref=e1372]: Weak against
+                  - generic [ref=e1373]: logical
+              - button "PICK" [ref=e1374]
+          - generic [ref=e1376] [cursor=pointer]:
+            - generic [ref=e1377]:
+              - generic [ref=e1425]: Small Business Owner
+              - generic [ref=e1426]: You employ 40 people in the district and this bill hits your bottom line. When you talk jobs and payroll, members listen.
+              - button "PICK" [ref=e1427]
+            - generic [ref=e1428]:
+              - generic [ref=e1429]:
+                - generic [ref=e1430]: MOVES
+                - generic [ref=e1431]:
+                  - generic [ref=e1432]: Local Impact
+                  - generic [ref=e1433]: Horse Trade
+                  - generic [ref=e1434]: Constituent Pressure
+                  - generic [ref=e1435]: Policy Appeal
+                  - generic [ref=e1436]: +2 random
+              - generic [ref=e1437]:
+                - generic [ref=e1438]:
+                  - generic [ref=e1439]: Strong against
+                  - generic [ref=e1440]: emotional
+                  - generic [ref=e1441]: transactional
+                - generic [ref=e1442]:
+                  - generic [ref=e1443]: Weak against
+                  - generic [ref=e1444]: pressure
+              - button "PICK" [ref=e1445]
+  - alert [ref=e1222]
